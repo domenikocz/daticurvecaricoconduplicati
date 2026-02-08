@@ -63,6 +63,17 @@ def elabora_multipli_file():
         df_risultato['TOTALE GENERALE'] = ""
         df_risultato.at['TOTALE MENSILE', 'TOTALE GENERALE'] = totale_generale
 
+        # --- MODIFICA: Formattazione numeri (16.155,00) ---
+        def format_it(x):
+            try:
+                if x == "" or pd.isna(x): return x
+                return f"{float(x):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+            except:
+                return x
+        
+        df_risultato = df_risultato.applymap(format_it)
+        # --------------------------------------------------
+
         st.subheader(f"Risultati Anno {anno_selezionato} (x{moltiplicatore})")
         st.write(df_risultato)
 
